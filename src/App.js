@@ -1,6 +1,6 @@
 import './App.css';
 import { MapContainer, TileLayer, Polygon} from 'react-leaflet'
-import {useMemo} from 'react'
+import {useMemo, useState} from 'react'
 
 function App() {
 
@@ -23,6 +23,9 @@ const polygon3 = [
   [-70.309774,-89.59562]
 ];
 
+const [color1, setcol] = useState({color : 'blue'});
+
+
 const onChange = ()=>{
   console.log('region1');
 }
@@ -33,9 +36,12 @@ const onChange3 = ()=>{
   console.log('region3');
 }
 
-const handlers = useMemo(() => ({ click: onChange}), []);
+
+const handlers = useMemo(() => ({ click: onChange, mouseover : () => {setcol({color : 'red', border : '100px'});} , mouseout : () => {setcol({color : 'blue'});}}), []);
 const handlers2 = useMemo(() => ({ click: onChange2}), []);
 const handlers3 = useMemo(() => ({ click: onChange3}), []);
+
+
 
 
 return(
@@ -48,6 +54,7 @@ return(
     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       />
       <Polygon positions={polygon} 
+      pathOptions={color1}
       eventHandlers = {handlers}
        />
       <Polygon positions={polygon2} 
